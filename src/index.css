@@ -399,6 +399,14 @@ body {
   object-fit: cover;
   border: 2px solid var(--accent);
   box-shadow: 0 0 15px var(--accent-glow);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.hero-avatar:hover {
+  transform: scale(1.18);
+  border-color: #a855f7;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
 }
 
 .hero-avatar-initials {
@@ -415,6 +423,14 @@ body {
   font-size: 22px;
   border: 2px solid var(--accent);
   box-shadow: 0 0 15px var(--accent-glow);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.hero-avatar-initials:hover {
+  transform: scale(1.18);
+  border-color: #a855f7;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
 }
 
 .hero-eyebrow {
