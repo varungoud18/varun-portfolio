@@ -553,7 +553,7 @@ function ConstellationBg() {
 
     const init = () => {
       particles = [];
-      const count = Math.min(Math.floor((canvas.width * canvas.height) / 11000), 120);
+      const count = Math.min(Math.floor((canvas.width * canvas.height) / 16000), 85);
       for (let i = 0; i < count; i++) {
         particles.push(new Particle());
       }
@@ -575,9 +575,10 @@ function ConstellationBg() {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const distSq = dx * dx + dy * dy;
 
-          if (dist < 100) {
+          if (distSq < 10000) { // 100px * 100px
+            const dist = Math.sqrt(distSq);
             ctx.strokeStyle = `rgba(${lineBase}, ${0.12 * (1 - dist / 100)})`;
             ctx.lineWidth = 0.6;
             ctx.beginPath();
@@ -591,9 +592,11 @@ function ConstellationBg() {
         if (mouse.x !== null && mouse.y !== null) {
           const dx = particles[i].x - mouse.x;
           const dy = particles[i].y - mouse.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const distSq = dx * dx + dy * dy;
+          const mouseRadiusSq = mouse.radius * mouse.radius; // 140 * 140 = 19600
 
-          if (dist < mouse.radius) {
+          if (distSq < mouseRadiusSq) {
+            const dist = Math.sqrt(distSq);
             ctx.strokeStyle = `rgba(${lineBase}, ${0.25 * (1 - dist / mouse.radius)})`;
             ctx.lineWidth = 0.8;
             ctx.beginPath();
