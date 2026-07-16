@@ -748,7 +748,7 @@ export default function Portfolio() {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
-  const ROLES = ["SOFTWARE ENGINEER", "AI ENGINEER", "ML ENGINEER"];
+  const ROLES = ["SOFTWARE DEVELOPMENT", "ARTIFICIAL INTELLIGENCE", "MACHINE LEARNING", "DATA SCIENCE"];
   const [roleIndex, setRoleIndex] = useState(0);
   const [currentRoleText, setCurrentRoleText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
