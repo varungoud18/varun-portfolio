@@ -404,9 +404,11 @@ body {
 }
 
 .hero-avatar:hover {
-  transform: scale(1.18);
+  transform: scale(2.2);
   border-color: #a855f7;
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+  box-shadow: 0 10px 30px rgba(168, 85, 247, 0.5);
+  position: relative;
+  z-index: 10;
 }
 
 .hero-avatar-initials {
@@ -428,9 +430,11 @@ body {
 }
 
 .hero-avatar-initials:hover {
-  transform: scale(1.18);
+  transform: scale(2.2);
   border-color: #a855f7;
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+  box-shadow: 0 10px 30px rgba(168, 85, 247, 0.5);
+  position: relative;
+  z-index: 10;
 }
 
 .hero-eyebrow {
