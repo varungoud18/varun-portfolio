@@ -772,9 +772,18 @@ export default function Portfolio() {
 
   const fonts = [
     "'Space Grotesk', sans-serif",
+    "'Sora', sans-serif",
+    "'Manrope', sans-serif",
+    "'Outfit', sans-serif",
     "'Playfair Display', serif",
-    "'JetBrains Mono', monospace",
+    "'DM Serif Display', serif",
     "'Cormorant Garamond', serif",
+    "'Libre Baskerville', serif",
+    "'JetBrains Mono', monospace",
+    "'IBM Plex Mono', monospace",
+    "'Space Mono', monospace",
+    "'Bricolage Grotesque', sans-serif",
+    "'Caveat', cursive",
     "'Outfit', sans-serif"
   ];
 
