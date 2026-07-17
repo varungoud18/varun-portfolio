@@ -315,10 +315,10 @@ body {
   transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.glass-card:hover {
-  border-color: var(--surface-border-hover);
-  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.08);
-  transform: translateY(-4px) scale(1.015);
+.glass-card:hover, .glass-card.visible:hover {
+  border-color: var(--accent);
+  box-shadow: 0 12px 40px var(--accent-glow);
+  transform: translateY(-8px) scale(1.05);
 }
 
 /* Hero Section Grid */
