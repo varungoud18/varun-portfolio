@@ -12,12 +12,13 @@ Welcome to the repository of my personal developer portfolio, live at **[varungo
 
 ## 🎨 Core Features
 
-- **💡 Dual Theme System**: Seamless transition between Dark and Light mode. The preference is persisted in `localStorage` so the browser remembers it on your next visit.
-- **✨ Monogram Name Reveal**: A custom interactive hover effect. The clean monogram `VGK` smoothly expands to reveal my full name **Varun Goud Karupothula** when hovered.
-- **⚡ Performance-Optimized Constellation Background**: A fully interactive HTML5 Canvas background particle system that follows the mouse. Optimized using distance-squared checks (`dx * dx + dy * dy`) to bypass heavy square root operations, ensuring **60fps** buttery-smooth performance.
-- **💻 Terminal Code Editor Mockup**: A premium interactive card displaying a stylized coding terminal showing real development files and code syntax.
-- **🛠️ Categorized Skills Matrix**: Fully customized skill categories (Programming, AI/ML, Foundations, Tools) with a clean animated icon reveal on hover.
-- **🚀 CI/CD Pipeline (GitHub Actions)**: Fully automated deployment script that builds and deploys the portfolio straight to GitHub Pages and the custom domain on every git push.
+- **💡 Dual Theme System**: Seamless transition between Dark and Light mode. Theme preferences are persisted in `localStorage` for a consistent experience across visits.
+- **🔤 Interactive Logo Font-Cycling**: A highly responsive hover state on the brand logo (`VGK Varun Goud Karupothula`) that cycles rapidly through 13 custom Google Fonts (serif, display, script, monospace, and sans-serif) every 250ms, with absolute layout stability.
+- **⚡ Performance-Optimized Constellation Background**: An interactive HTML5 Canvas background particle system that responds to mouse movement. Optimized using distance-squared calculations to guarantee a buttery-smooth 60fps refresh rate.
+- **🏅 Extended Hero & Credentials**: Expanded hero layout featuring a profile avatar with a sleek gradient border and a three-column quick credentials grid highlighting OCI certifications.
+- **🛠️ Permanent Unique Skill Iconography**: Categorized skills matrix showing unique, custom-coded vector SVGs for every single skill, eliminating generic placeholders.
+- **✨ Premium Card Zoom & Glow**: Elevated hover transitions (`translateY(-8px) scale(1.05)`) with active theme accent borders and glow shadows specifically for project and certification cards.
+- **🚀 CI/CD Pipeline (GitHub Actions)**: Automated deployment workflows that compile and publish changes to GitHub Pages under the custom domain on every push.
 
 ---
 
