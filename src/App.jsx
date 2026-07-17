@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Mail, ExternalLink, Download, ArrowRight, Menu, X, Sun, Moon } from "lucide-react";
+import { Mail, ExternalLink, Download, ArrowRight, Menu, X, Sun, Moon, Award } from "lucide-react";
 
 const PROFILE = {
   name: "Varun Goud Karupothula",
@@ -364,111 +364,7 @@ function getSkillIcon(skill) {
   }
 }
 
-function CodeTypewriter() {
-  const codeLines = [
-    { text: "# data_pipeline.py", type: "comment" },
-    { text: "import torch", type: "keyword" },
-    { text: "from transformers import AutoModel, AutoTokenizer", type: "keyword" },
-    { text: "", type: "plain" },
-    { text: "model = AutoModel.from_pretrained(\"bert-base\")", type: "plain" },
-    { text: "tokenizer = AutoTokenizer.from_pretrained()", type: "plain" },
-    { text: "", type: "plain" },
-    { text: "def process_batch(data, batch_size=32):", type: "def" },
-    { text: "    \"\"\"Process data in parallel batches\"\"\"", type: "docstring" },
-    { text: "    results = []", type: "plain" },
-    { text: "    for batch in chunk(data, batch_size):", type: "control" },
-    { text: "        embeddings = model.encode(batch)", type: "plain" },
-    { text: "        results.extend(embeddings)", type: "plain" },
-    { text: "    return torch.stack(results)", type: "control" }
-  ];
 
-  const [visibleLines, setVisibleLines] = useState([]);
-  const [currentLineIndex, setCurrentLineIndex] = useState(0);
-  const [currentCharIndex, setCurrentCharIndex] = useState(0);
-
-  useEffect(() => {
-    if (currentLineIndex >= codeLines.length) {
-      const timer = setTimeout(() => {
-        setVisibleLines([]);
-        setCurrentLineIndex(0);
-        setCurrentCharIndex(0);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-
-    const currentLine = codeLines[currentLineIndex];
-    if (currentLine.text === "") {
-      setVisibleLines(prev => [...prev, { text: "", type: "plain" }]);
-      setCurrentLineIndex(prev => prev + 1);
-      setCurrentCharIndex(0);
-      return;
-    }
-
-    const charTimer = setTimeout(() => {
-      const textToRender = currentLine.text.slice(0, currentCharIndex + 1);
-      
-      setVisibleLines(prev => {
-        const next = [...prev];
-        if (currentCharIndex === 0) {
-          next.push({ text: textToRender, type: currentLine.type });
-        } else {
-          next[currentLineIndex] = { text: textToRender, type: currentLine.type };
-        }
-        return next;
-      });
-
-      if (currentCharIndex + 1 >= currentLine.text.length) {
-        setCurrentLineIndex(prev => prev + 1);
-        setCurrentCharIndex(0);
-      } else {
-        setCurrentCharIndex(prev => prev + 1);
-      }
-    }, 20);
-
-    return () => clearTimeout(charTimer);
-  }, [currentLineIndex, currentCharIndex]);
-
-  const renderSpan = (line, idx) => {
-    if (line.type === "comment") {
-      return <span key={idx} className="code-comment">{line.text}</span>;
-    }
-    if (line.type === "docstring") {
-      return <span key={idx} className="code-docstring">{line.text}</span>;
-    }
-    
-    let content = line.text;
-    const parts = [];
-    const keywords = ["def", "import", "from", "for", "in", "return"];
-    const regex = new RegExp(`\\b(${keywords.join("|")})\\b`, "g");
-    
-    let lastIndex = 0;
-    let match;
-    while ((match = regex.exec(content)) !== null) {
-      if (match.index > lastIndex) {
-        parts.push(content.substring(lastIndex, match.index));
-      }
-      parts.push(<span key={match.index} className="code-keyword">{match[0]}</span>);
-      lastIndex = regex.lastIndex;
-    }
-    if (lastIndex < content.length) {
-      parts.push(content.substring(lastIndex));
-    }
-    
-    return <span key={idx} className={`code-line code-${line.type}`}>{parts.length > 0 ? parts : content}</span>;
-  };
-
-  return (
-    <pre className="code-container">
-      {visibleLines.map((line, idx) => (
-        <div key={idx} className="code-row">
-          <span className="code-line-number">{idx + 1}</span>
-          {renderSpan(line, idx)}
-        </div>
-      ))}
-      <span className="code-editor-cursor" />
-    </pre>
-  );
-}
 
 function useReveal() {
   const ref = useRef(null);
@@ -832,46 +728,54 @@ export default function Portfolio() {
           </div>
 
           <div className="hero-grid">
-            {/* Left Column */}
+            {/* Extended Single Column Layout */}
             <div className="hero-left-col">
               <div className="hero-main-card glass-card">
                 <span className="hero-card-index">[ 01, 01 ]</span>
-                <div className="hero-avatar-row">
-                  {imgFailed ? (
-                    <div className="hero-avatar-initials">{PROFILE.short}</div>
-                  ) : (
-                    <img
-                      src="/profile.jpg"
-                      alt={PROFILE.name}
-                      className="hero-avatar"
-                      onError={() => setImgFailed(true)}
-                    />
-                  )}
-                  <span className="hero-eyebrow">
-                    {currentRoleText}
-                    <span className="hero-role-cursor">|</span>
-                  </span>
-                </div>
-                <h1 className="hero-title">
-                  Hello, I am <br />
-                  <span 
-                    className="hero-name-reveal"
-                    onMouseEnter={() => setNameHovered(true)}
-                    onMouseLeave={() => setNameHovered(false)}
-                  >
-                    <span className="char-static">V</span><span className={`char-dynamic ${nameHovered ? "expanded" : ""}`}>arun</span>&nbsp;
-                    <span className="char-static">G</span><span className={`char-dynamic ${nameHovered ? "expanded" : ""}`}>oud</span>&nbsp;
-                    <span className="char-static">K</span><span className={`char-dynamic ${nameHovered ? "expanded" : ""}`}>arupothula</span>
-                  </span>
-                </h1>
-                <p className="hero-tagline">{PROFILE.tagline}</p>
-                <div className="hero-actions">
-                  <a href="/resume.pdf" className="btn btn-primary" target="_blank" rel="noreferrer">
-                    <ExternalLink size={15} /> Preview Resume
-                  </a>
-                  <a href={`mailto:${PROFILE.email}`} className="btn btn-secondary">
-                    <Mail size={15} /> Contact Me <ArrowRight size={14} />
-                  </a>
+                <div className="hero-main-card-content">
+                  <div className="hero-main-card-details">
+                    <div className="hero-eyebrow-row">
+                      <span className="hero-eyebrow-dot" />
+                      <span className="hero-eyebrow">
+                        {currentRoleText}
+                        <span className="hero-role-cursor">|</span>
+                      </span>
+                    </div>
+                    <h1 className="hero-title">
+                      Hello, I am <br />
+                      <span 
+                        className="hero-name-reveal"
+                        onMouseEnter={() => setNameHovered(true)}
+                        onMouseLeave={() => setNameHovered(false)}
+                      >
+                        <span className="char-static">V</span><span className={`char-dynamic ${nameHovered ? "expanded" : ""}`}>arun</span>&nbsp;
+                        <span className="char-static">G</span><span className={`char-dynamic ${nameHovered ? "expanded" : ""}`}>oud</span>&nbsp;
+                        <span className="char-static">K</span><span className={`char-dynamic ${nameHovered ? "expanded" : ""}`}>arupothula</span>
+                      </span>
+                    </h1>
+                    <p className="hero-tagline">{PROFILE.tagline}</p>
+                    <div className="hero-actions">
+                      <a href="/resume.pdf" className="btn btn-primary" target="_blank" rel="noreferrer">
+                        <ExternalLink size={15} /> Preview Resume
+                      </a>
+                      <a href={`mailto:${PROFILE.email}`} className="btn btn-secondary">
+                        <Mail size={15} /> Contact Me <ArrowRight size={14} />
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="hero-avatar-wrapper">
+                    {imgFailed ? (
+                      <div className="hero-avatar-initials">{PROFILE.short}</div>
+                    ) : (
+                      <img
+                        src="/profile.jpg"
+                        alt={PROFILE.name}
+                        className="hero-avatar"
+                        onError={() => setImgFailed(true)}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -898,23 +802,14 @@ export default function Portfolio() {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Right Column - Code Editor Card */}
-            <div className="hero-right-col">
-              <div className="editor-card glass-card">
-                <div className="editor-header">
-                  <div className="editor-controls">
-                    <span className="control-dot close" />
-                    <span className="control-dot minimize" />
-                    <span className="control-dot expand" />
+                <div className="status-card glass-card certs-highlight">
+                  <span className="hero-card-index">[ 02, 02 ]</span>
+                  <Award size={20} className="status-icon" style={{ color: 'var(--accent)', flexShrink: 0 }} />
+                  <div>
+                    <div className="status-title">Key Credentials</div>
+                    <div className="status-text">OCI GenAI Professional &amp; AI Associate</div>
                   </div>
-                  <div className="editor-tab">data_pipeline.py</div>
-                  <div className="editor-shell">&gt; ACTIVE SHELL</div>
-                </div>
-                <div className="editor-body">
-                  <CodeTypewriter />
                 </div>
               </div>
             </div>
