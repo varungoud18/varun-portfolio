@@ -766,6 +766,41 @@ export default function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [nameHovered, setNameHovered] = useState(false);
   const [imgFailed, setImgFailed] = useState(false);
+  const [logoFont, setLogoFont] = useState("var(--font-mono)");
+  const fontCycleInterval = useRef(null);
+  const fontIndex = useRef(0);
+
+  const fonts = [
+    "var(--font-mono)",
+    "'Playfair Display', serif",
+    "'Pacifico', cursive",
+    "'Bebas Neue', sans-serif",
+    "'Orbitron', sans-serif",
+    "'Silkscreen', sans-serif"
+  ];
+
+  const handleLogoMouseEnter = () => {
+    if (fontCycleInterval.current) clearInterval(fontCycleInterval.current);
+    fontCycleInterval.current = setInterval(() => {
+      fontIndex.current = (fontIndex.current + 1) % fonts.length;
+      setLogoFont(fonts[fontIndex.current]);
+    }, 250);
+  };
+
+  const handleLogoMouseLeave = () => {
+    if (fontCycleInterval.current) {
+      clearInterval(fontCycleInterval.current);
+      fontCycleInterval.current = null;
+    }
+    fontIndex.current = 0;
+    setLogoFont("var(--font-mono)");
+  };
+
+  useEffect(() => {
+    return () => {
+      if (fontCycleInterval.current) clearInterval(fontCycleInterval.current);
+    };
+  }, []);
 
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem("theme");
@@ -818,7 +853,13 @@ export default function Portfolio() {
       {/* Main Header / Sticky Navbar */}
       <header className="header">
         <div className="header-container">
-          <a href="#top" className="logo-box">
+          <a
+            href="#top"
+            className="logo-box"
+            onMouseEnter={handleLogoMouseEnter}
+            onMouseLeave={handleLogoMouseLeave}
+            style={{ fontFamily: logoFont }}
+          >
             <span className="logo-badge">VGK</span> {PROFILE.logoText}
           </a>
           <div className="header-right">
