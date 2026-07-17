@@ -117,12 +117,15 @@ body {
   font-size: 14px;
   color: var(--text);
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 10;
 }
 
 .logo-box:hover {
   border-color: var(--accent);
   box-shadow: 0 0 15px var(--accent-glow);
+  transform: scale(1.5); /* 1.5x zoom */
 }
 
 .logo-badge {
@@ -853,7 +856,7 @@ body {
 .project-card:hover, .cert-card:hover {
   border-color: var(--accent);
   box-shadow: 0 12px 40px var(--accent-glow);
-  transform: translateY(-6px) scale(1.02);
+  transform: translateY(-8px) scale(1.05); /* Increased zoom and lift */
 }
 
 /* Experience / Achievements */
