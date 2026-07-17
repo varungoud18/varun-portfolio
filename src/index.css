@@ -804,10 +804,10 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 0;
+  width: 16px;
   height: 16px;
-  opacity: 0;
-  transform: scale(0.6);
+  opacity: 0.85;
+  transform: scale(1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
   color: var(--accent);
@@ -822,18 +822,38 @@ body {
   transition: transform 0.3s ease;
 }
 
+.skill-pill {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  padding: 6px 14px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+}
+
 .skill-pill:hover {
   border-color: var(--accent);
   background: rgba(59, 130, 246, 0.08);
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
-  gap: 8px;
   transform: translateY(-2px) scale(1.05);
 }
 
 .skill-pill:hover .skill-icon-wrap {
-  width: 16px;
   opacity: 1;
-  transform: scale(1);
+  transform: scale(1.1);
+}
+
+/* Accent Glow Hover for Projects and Certifications */
+.project-card:hover, .cert-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 12px 40px var(--accent-glow);
+  transform: translateY(-6px) scale(1.02);
 }
 
 /* Experience / Achievements */
