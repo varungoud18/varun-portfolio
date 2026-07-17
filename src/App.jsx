@@ -771,12 +771,11 @@ export default function Portfolio() {
   const fontIndex = useRef(0);
 
   const fonts = [
-    "var(--font-mono)",
+    "'Space Grotesk', sans-serif",
     "'Playfair Display', serif",
-    "'Pacifico', cursive",
-    "'Bebas Neue', sans-serif",
-    "'Orbitron', sans-serif",
-    "'Silkscreen', sans-serif"
+    "'JetBrains Mono', monospace",
+    "'Cormorant Garamond', serif",
+    "'Outfit', sans-serif"
   ];
 
   const handleLogoMouseEnter = () => {
