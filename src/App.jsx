@@ -569,21 +569,41 @@ function ConstellationBg() {
 
     class Particle {
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * Math.max(currentScrollHeight, window.innerHeight * 4);
+        this.centerX = Math.random() * canvas.width;
+        this.centerY = Math.random() * Math.max(currentScrollHeight, window.innerHeight * 4);
+        
+        // Circular orbit properties
+        this.angle = Math.random() * Math.PI * 2;
+        this.orbitRadius = Math.random() * 25 + 10; // orbit radius between 10px and 35px
+        this.orbitSpeed = (Math.random() * 0.012 + 0.006) * (Math.random() < 0.5 ? 1 : -1); // rotation speed and direction
+        
+        // Slow background drift for the anchors
+        this.driftX = (Math.random() - 0.5) * 0.12;
+        this.driftY = (Math.random() - 0.5) * 0.12;
+        
         this.size = Math.random() * 1.8 + 0.8;
-        this.speedX = (Math.random() - 0.5) * 0.35;
-        this.speedY = (Math.random() - 0.5) * 0.35;
+        this.x = this.centerX + Math.cos(this.angle) * this.orbitRadius;
+        this.y = this.centerY + Math.sin(this.angle) * this.orbitRadius;
         this.screenY = 0;
       }
       update(scrollHeight) {
-        this.x += this.speedX;
-        this.y += this.speedY;
+        // Slowly drift the orbit anchor center
+        this.centerX += this.driftX;
+        this.centerY += this.driftY;
 
-        if (this.x > canvas.width) this.x = 0;
-        else if (this.x < 0) this.x = canvas.width;
-        if (this.y > scrollHeight) this.y = 0;
-        else if (this.y < 0) this.y = scrollHeight;
+        // Wrap anchor positions around the bounds
+        if (this.centerX > canvas.width + this.orbitRadius) this.centerX = -this.orbitRadius;
+        else if (this.centerX < -this.orbitRadius) this.centerX = canvas.width + this.orbitRadius;
+
+        if (this.centerY > scrollHeight + this.orbitRadius) this.centerY = -this.orbitRadius;
+        else if (this.centerY < -this.orbitRadius) this.centerY = scrollHeight + this.orbitRadius;
+
+        // Progress orbit angle
+        this.angle += this.orbitSpeed;
+
+        // Compute actual particle coordinates
+        this.x = this.centerX + Math.cos(this.angle) * this.orbitRadius;
+        this.y = this.centerY + Math.sin(this.angle) * this.orbitRadius;
       }
       draw(isLightTheme) {
         ctx.fillStyle = isLightTheme ? "rgba(37, 99, 235, 0.6)" : "rgba(147, 197, 253, 0.75)";
