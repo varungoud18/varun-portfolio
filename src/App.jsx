@@ -540,13 +540,20 @@ function ConstellationBg() {
 
     let particles = [];
     const mouse = { x: null, y: null, radius: 155 };
+    let currentScrollHeight = document.documentElement.scrollHeight;
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      currentScrollHeight = document.documentElement.scrollHeight;
     };
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
+
+    const handleScroll = () => {
+      currentScrollHeight = document.documentElement.scrollHeight;
+    };
+    window.addEventListener("scroll", handleScroll);
 
     const handleMouseMove = (e) => {
       mouse.x = e.clientX;
@@ -562,31 +569,33 @@ function ConstellationBg() {
     class Particle {
       constructor() {
         this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.y = Math.random() * Math.max(currentScrollHeight, window.innerHeight * 4);
         this.size = Math.random() * 1.8 + 0.8;
         this.speedX = (Math.random() - 0.5) * 0.35;
         this.speedY = (Math.random() - 0.5) * 0.35;
+        this.screenY = 0;
       }
-      update() {
+      update(scrollHeight) {
         this.x += this.speedX;
         this.y += this.speedY;
 
         if (this.x > canvas.width) this.x = 0;
         else if (this.x < 0) this.x = canvas.width;
-        if (this.y > canvas.height) this.y = 0;
-        else if (this.y < 0) this.y = canvas.height;
+        if (this.y > scrollHeight) this.y = 0;
+        else if (this.y < 0) this.y = scrollHeight;
       }
       draw(isLightTheme) {
         ctx.fillStyle = isLightTheme ? "rgba(37, 99, 235, 0.6)" : "rgba(147, 197, 253, 0.75)";
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.arc(this.x, this.screenY, this.size, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
     const init = () => {
       particles = [];
-      const count = Math.min(Math.floor((canvas.width * canvas.height) / 9000), 160);
+      const targetHeight = Math.max(document.documentElement.scrollHeight, window.innerHeight * 4);
+      const count = Math.min(Math.floor((canvas.width * targetHeight) / 11000), 350);
       for (let i = 0; i < count; i++) {
         particles.push(new Particle());
       }
@@ -597,20 +606,39 @@ function ConstellationBg() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const isLightTheme = document.documentElement.classList.contains("light-theme");
       const lineBase = isLightTheme ? "37, 99, 235" : "96, 165, 250"; // Use lighter blue for lines in dark theme
+      const scrollY = window.scrollY;
 
       particles.forEach((p) => {
-        p.update();
+        p.update(currentScrollHeight);
+      });
+
+      // Filter and cache screen positions for particles that are visible inside viewport + buffer
+      const visibleParticles = [];
+      const buffer = 130;
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        const screenY = p.y - scrollY;
+        if (screenY >= -buffer && screenY <= canvas.height + buffer) {
+          p.screenY = screenY;
+          visibleParticles.push(p);
+        }
+      }
+
+      // Draw visible particles
+      visibleParticles.forEach((p) => {
         p.draw(isLightTheme);
       });
 
       const maxDist = 120;
       const maxDistSq = maxDist * maxDist;
 
-      // Draw connection lines
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
+      // Draw connection lines between visible particles
+      for (let i = 0; i < visibleParticles.length; i++) {
+        const pi = visibleParticles[i];
+        for (let j = i + 1; j < visibleParticles.length; j++) {
+          const pj = visibleParticles[j];
+          const dx = pi.x - pj.x;
+          const dy = pi.screenY - pj.screenY;
           const distSq = dx * dx + dy * dy;
 
           if (distSq < maxDistSq) {
@@ -621,16 +649,16 @@ function ConstellationBg() {
             ctx.strokeStyle = `rgba(${lineBase}, ${alpha})`;
             ctx.lineWidth = isLightTheme ? 0.6 : 0.85;
             ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.moveTo(pi.x, pi.screenY);
+            ctx.lineTo(pj.x, pj.screenY);
             ctx.stroke();
           }
         }
 
         // Draw connections to mouse
         if (mouse.x !== null && mouse.y !== null) {
-          const dx = particles[i].x - mouse.x;
-          const dy = particles[i].y - mouse.y;
+          const dx = pi.x - mouse.x;
+          const dy = pi.screenY - mouse.y;
           const distSq = dx * dx + dy * dy;
           const mouseRadiusSq = mouse.radius * mouse.radius;
 
@@ -642,7 +670,7 @@ function ConstellationBg() {
             ctx.strokeStyle = `rgba(${lineBase}, ${alpha})`;
             ctx.lineWidth = isLightTheme ? 0.9 : 1.25;
             ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.moveTo(pi.x, pi.screenY);
             ctx.lineTo(mouse.x, mouse.y);
             ctx.stroke();
           }
@@ -655,6 +683,7 @@ function ConstellationBg() {
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseleave", handleMouseLeave);
     };
