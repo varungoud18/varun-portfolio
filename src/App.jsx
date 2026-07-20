@@ -541,6 +541,7 @@ function ConstellationBg() {
     let particles = [];
     const mouse = { x: null, y: null, radius: 155 };
     let currentScrollHeight = document.documentElement.scrollHeight;
+    let smoothScrollY = window.scrollY;
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -606,7 +607,9 @@ function ConstellationBg() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const isLightTheme = document.documentElement.classList.contains("light-theme");
       const lineBase = isLightTheme ? "37, 99, 235" : "96, 165, 250"; // Use lighter blue for lines in dark theme
-      const scrollY = window.scrollY;
+      
+      // Interpolate scroll position for inertia / smooth scrolling
+      smoothScrollY += (window.scrollY - smoothScrollY) * 0.08;
 
       particles.forEach((p) => {
         p.update(currentScrollHeight);
@@ -617,7 +620,7 @@ function ConstellationBg() {
       const buffer = 130;
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
-        const screenY = p.y - scrollY;
+        const screenY = p.y - smoothScrollY;
         if (screenY >= -buffer && screenY <= canvas.height + buffer) {
           p.screenY = screenY;
           visibleParticles.push(p);
