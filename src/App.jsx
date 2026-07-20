@@ -539,7 +539,7 @@ function ConstellationBg() {
     if (!ctx) return;
 
     let particles = [];
-    const mouse = { x: null, y: null, radius: 140 };
+    const mouse = { x: null, y: null, radius: 155 };
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -563,7 +563,7 @@ function ConstellationBg() {
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 1.5 + 0.5;
+        this.size = Math.random() * 1.8 + 0.8;
         this.speedX = (Math.random() - 0.5) * 0.35;
         this.speedY = (Math.random() - 0.5) * 0.35;
       }
@@ -577,7 +577,7 @@ function ConstellationBg() {
         else if (this.y < 0) this.y = canvas.height;
       }
       draw(isLightTheme) {
-        ctx.fillStyle = isLightTheme ? "rgba(71, 85, 105, 0.4)" : "rgba(100, 116, 139, 0.4)";
+        ctx.fillStyle = isLightTheme ? "rgba(37, 99, 235, 0.6)" : "rgba(147, 197, 253, 0.75)";
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
@@ -586,7 +586,7 @@ function ConstellationBg() {
 
     const init = () => {
       particles = [];
-      const count = Math.min(Math.floor((canvas.width * canvas.height) / 16000), 85);
+      const count = Math.min(Math.floor((canvas.width * canvas.height) / 9000), 160);
       for (let i = 0; i < count; i++) {
         particles.push(new Particle());
       }
@@ -596,12 +596,15 @@ function ConstellationBg() {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const isLightTheme = document.documentElement.classList.contains("light-theme");
-      const lineBase = isLightTheme ? "37, 99, 235" : "59, 130, 246";
+      const lineBase = isLightTheme ? "37, 99, 235" : "96, 165, 250"; // Use lighter blue for lines in dark theme
 
       particles.forEach((p) => {
         p.update();
         p.draw(isLightTheme);
       });
+
+      const maxDist = 120;
+      const maxDistSq = maxDist * maxDist;
 
       // Draw connection lines
       for (let i = 0; i < particles.length; i++) {
@@ -610,10 +613,13 @@ function ConstellationBg() {
           const dy = particles[i].y - particles[j].y;
           const distSq = dx * dx + dy * dy;
 
-          if (distSq < 10000) { // 100px * 100px
+          if (distSq < maxDistSq) {
             const dist = Math.sqrt(distSq);
-            ctx.strokeStyle = `rgba(${lineBase}, ${0.12 * (1 - dist / 100)})`;
-            ctx.lineWidth = 0.6;
+            const alpha = isLightTheme 
+              ? 0.20 * (1 - dist / maxDist) 
+              : 0.28 * (1 - dist / maxDist);
+            ctx.strokeStyle = `rgba(${lineBase}, ${alpha})`;
+            ctx.lineWidth = isLightTheme ? 0.6 : 0.85;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -626,12 +632,15 @@ function ConstellationBg() {
           const dx = particles[i].x - mouse.x;
           const dy = particles[i].y - mouse.y;
           const distSq = dx * dx + dy * dy;
-          const mouseRadiusSq = mouse.radius * mouse.radius; // 140 * 140 = 19600
+          const mouseRadiusSq = mouse.radius * mouse.radius;
 
           if (distSq < mouseRadiusSq) {
             const dist = Math.sqrt(distSq);
-            ctx.strokeStyle = `rgba(${lineBase}, ${0.25 * (1 - dist / mouse.radius)})`;
-            ctx.lineWidth = 0.8;
+            const alpha = isLightTheme 
+              ? 0.35 * (1 - dist / mouse.radius) 
+              : 0.45 * (1 - dist / mouse.radius);
+            ctx.strokeStyle = `rgba(${lineBase}, ${alpha})`;
+            ctx.lineWidth = isLightTheme ? 0.9 : 1.25;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(mouse.x, mouse.y);
