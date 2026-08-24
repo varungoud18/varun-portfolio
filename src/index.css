@@ -1194,8 +1194,10 @@ body {
 /* Scroll reveal class animations */
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(24px);
+  transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+              transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform, opacity;
 }
 
 .reveal.visible {
@@ -1207,26 +1209,31 @@ body {
 .project-card.reveal, .cert-card.reveal {
   transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
               box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-              opacity 0.6s ease !important;
+              transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1) !important;
 }
 
 /* Specific transition overrides for Education cards to support fast hover transforms */
 .edu-card.reveal {
   transition: border-color 0.2s ease, 
-              transform 0.2s ease, 
-              opacity 0.6s ease !important;
+              transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+              opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1) !important;
 }
 
-/* Ensure hover transforms take precedence over scroll reveal states */
+/* Ensure hover transforms take precedence over scroll reveal states and feel responsive */
 .project-card.reveal.visible:hover,
 .cert-card.reveal.visible:hover {
+  transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   transform: translateY(-8px) scale(1.05) !important;
   border-color: var(--accent) !important;
   box-shadow: 0 12px 40px var(--accent-glow) !important;
 }
 
 .edu-card.reveal.visible:hover {
+  transition: border-left-color 0.2s ease, 
+              transform 0.2s ease !important;
   border-left-color: var(--accent) !important;
   transform: translateX(4px) !important;
 }

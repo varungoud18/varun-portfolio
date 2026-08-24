@@ -105,6 +105,15 @@ const PROJECTS = [
     tags: ["Python", "TensorFlow", "NumPy", "Pandas", "Matplotlib"],
     metric: "98.7% accuracy · 97.4% F1-score · beats CNN-only (94.2%) and LSTM-only (91.8%) baselines",
   },
+  {
+    id: "PRJ_04",
+    title: "Document Summary Assistant",
+    github: "https://github.com/varungoud18/doc-summary-assistant",
+    live: "https://doc-summary-assistant-six.vercel.app/",
+    desc: "AI-powered document summary tool that extracts text from PDFs and scanned images (via Tesseract OCR) and generates structured summaries with key-points using Google Gemini. Features a professional dark-mode Linear-style user interface with a one-click copy utility.",
+    tags: ["React", "FastAPI", "Python", "Google Gemini API", "pytesseract", "Vite"],
+    metric: "sub-second summary generation · multi-format extraction",
+  },
 ];
 
 const CERTS = [
@@ -518,7 +527,10 @@ function useReveal() {
           observer.disconnect();
         }
       },
-      { threshold: 0.1 }
+      { 
+        threshold: 0.05,
+        rootMargin: "0px 0px -80px 0px"
+      }
     );
     observer.observe(el);
 
@@ -526,6 +538,16 @@ function useReveal() {
   }, []);
 
   return [ref, visible];
+}
+
+// Reusable component to apply scroll reveal animation to any content block
+function Reveal({ children, className = "" }) {
+  const [ref, visible] = useReveal();
+  return (
+    <div ref={ref} className={`${className} reveal ${visible ? "visible" : ""}`}>
+      {children}
+    </div>
+  );
 }
 
 // Background Constellation Canvas
@@ -1066,9 +1088,9 @@ export default function Portfolio() {
         {/* About Section */}
         <section id="about" className="section">
           <SectionHeader num="02" label="Archive_002" title="About & Education" />
-          <h2 className="section-title">About & Education</h2>
+          <Reveal><h2 className="section-title">About & Education</h2></Reveal>
           <div className="about-grid">
-            <div className="about-bio">
+            <Reveal className="about-bio">
               <p>
                 I am a final-year <strong>Computer Science & Engineering student</strong> at Vellore Institute of Technology, Amaravathi, with experience in building production-style systems.
               </p>
@@ -1078,7 +1100,7 @@ export default function Portfolio() {
               <p>
                 Equipped with the <strong>Oracle Cloud Infrastructure Generative AI Professional</strong> credentials, I enjoy working at the intersection of robust backend services and intelligent AI workloads.
               </p>
-            </div>
+            </Reveal>
 
             <div className="edu-timeline">
               {EDUCATION.map((edu, idx) => (
@@ -1091,7 +1113,7 @@ export default function Portfolio() {
         {/* Skills Section */}
         <section id="skills" className="section">
           <SectionHeader num="03" label="Archive_003" title="Skills & Technologies" />
-          <h2 className="section-title">Skills & Technologies</h2>
+          <Reveal><h2 className="section-title">Skills & Technologies</h2></Reveal>
           <div className="skills-card glass-card">
             {SKILLS.map((skill, idx) => (
               <SkillRow key={idx} {...skill} />
@@ -1102,7 +1124,7 @@ export default function Portfolio() {
         {/* Projects Section */}
         <section id="projects" className="section">
           <SectionHeader num="04" label="Archive_004" title="Featured Projects" />
-          <h2 className="section-title">Featured Projects</h2>
+          <Reveal><h2 className="section-title">Featured Projects</h2></Reveal>
           <div className="projects-list">
             {PROJECTS.map((proj) => (
               <ProjectCard key={proj.id} {...proj} />
@@ -1113,7 +1135,7 @@ export default function Portfolio() {
         {/* Certifications Section */}
         <section id="certifications" className="section">
           <SectionHeader num="05" label="Archive_005" title="Certifications" />
-          <h2 className="section-title">Certifications</h2>
+          <Reveal><h2 className="section-title">Certifications</h2></Reveal>
           <div className="certs-grid">
             {CERTS.map((cert, idx) => (
               <CertificationCard key={idx} {...cert} />
@@ -1124,7 +1146,7 @@ export default function Portfolio() {
         {/* Contact Section */}
         <footer id="contact" className="section">
           <SectionHeader num="06" label="Archive_006" title="Get in touch" />
-          <div className="contact-card glass-card">
+          <Reveal className="contact-card glass-card">
             <div className="contact-sys-connect">&gt; system.connect()</div>
             <p className="contact-subtitle">Open to SDE and ML Engineer opportunities.</p>
             <div className="contact-links">
@@ -1138,7 +1160,7 @@ export default function Portfolio() {
                 <Mail size={16} /> {PROFILE.email}
               </a>
             </div>
-          </div>
+          </Reveal>
 
           <div className="footer-bottom">
             <div className="footer-copy">// &copy; 2026 {PROFILE.name}. All rights reserved.</div>
