@@ -118,6 +118,12 @@ const PROJECTS = [
 
 const CERTS = [
   {
+    name: "Microsoft Certified: Fabric Data Engineer Associate (DP-700)",
+    org: "Microsoft",
+    year: "2025",
+    link: "https://learn.microsoft.com/api/credentials/share/en-us/VarunGoudKarupothula-5161/EAC615B81E90EA32?sharingId=EC32D09E45413BE9",
+  },
+  {
     name: "OCI 2025 Certified Generative AI Professional",
     org: "Oracle",
     year: "2025",
@@ -834,7 +840,7 @@ function CertificationCard({ name, org, year, link }) {
       className={`cert-card glass-card reveal ${visible ? "visible" : ""}`}
     >
       <div className="cert-card-header">
-        <span className="cert-badge">OCI CERTIFIED</span>
+        <span className="cert-badge">{org === "Microsoft" ? "MICROSOFT CERTIFIED" : "OCI CERTIFIED"}</span>
         <ExternalLink size={14} className="cert-icon" />
       </div>
       <div className="cert-name">{name}</div>
