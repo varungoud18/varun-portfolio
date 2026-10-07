@@ -24,8 +24,8 @@ const NAV_LINKS = [
 ];
 
 const TECH_TICKER = [
-  "React", "Python", "Java", "FastAPI", "PostgreSQL", "TensorFlow",
-  "Supabase", "FAISS", "Vite", "MongoDB", "Git", "Scikit-learn",
+  "React", "Python", "LangGraph", "FastAPI", "PostgreSQL", "PyTorch",
+  "Supabase", "FAISS", "Vite", "TensorFlow", "Git", "Scikit-learn",
 ];
 
 const EDUCATION = [
@@ -57,8 +57,8 @@ const SKILLS = [
   },
   {
     label: "Data & AI Engineering",
-    count: 9,
-    items: ["Pandas", "NumPy", "Scikit-learn", "TensorFlow", "FAISS", "PostgreSQL", "MySQL", "MongoDB", "Supabase"]
+    count: 10,
+    items: ["LangGraph", "PyTorch", "TensorFlow", "FAISS", "Scikit-learn", "Pandas", "NumPy", "PostgreSQL", "Supabase", "MongoDB"]
   },
   {
     label: "Tools & Methodologies",
@@ -80,6 +80,15 @@ const SKILLS = [
 const PROJECTS = [
   {
     id: "PRJ_01",
+    title: "PROVENANCE — Autonomous Multi-Hop Academic Research Agent",
+    github: "https://github.com/varungoud18/Provenance-MultiHop-RAG",
+    live: "https://provenance-multihop-rag.onrender.com/",
+    desc: "Autonomous multi-hop academic research agent powered by a 7-node LangGraph workflow executing 1–4 multi-hop loops to autonomously retrieve and verify academic literature. Integrates OpenAlex API to index 250M+ papers into 768-dim FAISS vectors using 120-word chunk windows. Features a two-stage retriever filtering top-20 vector candidates down to top-5 passages using a PyTorch Cross-Encoder, with Google Gemini NLI auditing sentence-level citations and computing a 0–100% factual risk score on FastAPI.",
+    tags: ["LangGraph", "Python", "FastAPI", "FAISS", "PyTorch", "Google Gemini API", "OpenAlex API", "Cross-Encoder"],
+    metric: "7-node LangGraph agent · 250M+ papers indexed · Two-stage Cross-Encoder re-ranking · 0–100% factual risk score",
+  },
+  {
+    id: "PRJ_02",
     title: "Studyys — AI-Powered Study Assistant",
     github: "https://github.com/varungoud18/Studyys",
     live: "https://studyys.vercel.app/",
@@ -88,7 +97,7 @@ const PROJECTS = [
     metric: "25% lower answer latency · sub-5s client-side parsing",
   },
   {
-    id: "PRJ_02",
+    id: "PRJ_03",
     title: "Semantic Cache Search Engine",
     github: "https://github.com/varungoud18/Semantic_Cache_Search",
     live: "https://semantic-cache-search.vercel.app/",
@@ -97,7 +106,7 @@ const PROJECTS = [
     metric: "35–45% cache hit rate · sub-ms retrieval over 20,000+ docs · 80% faster on cache hits",
   },
   {
-    id: "PRJ_03",
+    id: "PRJ_04",
     title: "Heart Disease Detection — CNN + LSTM",
     github: "https://github.com/varungoud18/Heart-Disease-Detection-using-Hybrid-CNN-and-LSTM",
     live: null,
@@ -106,7 +115,7 @@ const PROJECTS = [
     metric: "98.7% accuracy · 97.4% F1-score · beats CNN-only (94.2%) and LSTM-only (91.8%) baselines",
   },
   {
-    id: "PRJ_04",
+    id: "PRJ_05",
     title: "Document Summary Assistant",
     github: "https://github.com/varungoud18/doc-summary-assistant",
     live: "https://doc-summary-assistant-six.vercel.app/",
@@ -308,6 +317,15 @@ function getSkillIcon(skill) {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="11" cy="11" r="8" />
           <path d="M21 21l-4.35-4.35M11 7v8M7 11h8" />
+        </svg>
+      );
+    case "LangGraph":
+      return (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="6" cy="6" r="3" />
+          <circle cx="6" cy="18" r="3" />
+          <circle cx="18" cy="12" r="3" />
+          <path d="M8.5 7.5l7 3.5M8.5 16.5l7-3.5M6 9v6" />
         </svg>
       );
     case "LangChain":
