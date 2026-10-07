@@ -10,7 +10,7 @@ const PROFILE = {
   email: "varungoudk03@gmail.com",
   github: "https://github.com/varungoud18",
   linkedin: "https://www.linkedin.com/in/varungoud18/",
-  resumeUrl: "#", // Add link to your PDF resume here
+  resumeUrl: "/NeoResume.pdf",
   photo: "/profile.jpg",
 };
 
@@ -1048,7 +1048,7 @@ export default function Portfolio() {
                     </h1>
                     <p className="hero-tagline">{PROFILE.tagline}</p>
                     <div className="hero-actions">
-                      <a href="/resume.pdf" className="btn btn-primary" target="_blank" rel="noreferrer">
+                      <a href={PROFILE.resumeUrl} className="btn btn-primary" target="_blank" rel="noreferrer">
                         <ExternalLink size={15} /> Preview Resume
                       </a>
                       <a href={`mailto:${PROFILE.email}`} className="btn btn-secondary">

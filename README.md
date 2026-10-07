@@ -41,7 +41,7 @@ varun-portfolio/
 │   └── deploy.yml       # Automated build & deploy to GitHub Pages
 ├── public/              # Static assets
 │   ├── CNAME            # Custom domain routing (varungoud.me)
-│   ├── resume.pdf       # Downloadable/previewable resume document
+│   ├── NeoResume.pdf    # Downloadable/previewable resume document
 │   └── profile.jpg      # Main avatar image
 ├── src/                 # Application source code
 │   ├── App.jsx          # Main application file & state managers
@@ -84,7 +84,7 @@ npm run build
 ## 🔧 Personalization & Customization Guide
 
 ### Update Your Resume
-Simply replace the file located at `public/resume.pdf` with your updated resume PDF. Make sure the filename remains exactly `resume.pdf`.
+Simply replace the file located at `public/NeoResume.pdf` with your updated resume PDF or update `resumeUrl` in `src/App.jsx`.
 
 ### Change Your Profile Photo
 Replace the image located at `public/profile.jpg` with your own profile image.

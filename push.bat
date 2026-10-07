@@ -3,6 +3,6 @@ echo ===================================================
 echo   Pushing Portfolio Updates to GitHub
 echo ===================================================
 git add .
-git commit -m "Add PROVENANCE autonomous multi-hop academic research agent project"
+git commit -m "Update resume link to NeoResume.pdf"
 git push
 pause
